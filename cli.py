@@ -5,8 +5,8 @@ The CLI definition using Typer library.
 import sys
 
 import typer
-from docker.errors import DockerException
 
+import config
 import utils
 import master
 
@@ -14,15 +14,11 @@ app = typer.Typer(add_completion=False)
 
 
 @app.command()
-def start_master(docker_base_url: str = 'unix://var/run/docker.sock', _max_workers: int = 2):
+def start_master(_max_workers: int = 2):
     """
     Starts the master container
 
     Requires Docker to be installed.
-
-    --docker-base-url
-
-        URL to the Docker server. For example, unix:///var/run/docker.sock or tcp://127.0.0.1:1234.
 
     --max-workers
 
@@ -30,12 +26,12 @@ def start_master(docker_base_url: str = 'unix://var/run/docker.sock', _max_worke
     """
 
     try:
-        client = utils.get_docker_client(docker_base_url)
+        client = utils.get_docker_client(config.DOCKER_BASE_URL)
         typer.secho("Successfully connected to the Docker daemon", fg=typer.colors.GREEN, bold=True)
 
         typer.secho("Starting the master Docker container...", fg=typer.colors.BLUE, bold=True)
         master.manage.create(client)
-    except DockerException as err:
+    except Exception as err:
         typer.secho("Could not connect to the Docker daemon:", fg=typer.colors.RED, bold=True)
         typer.echo(err)
         sys.exit(1)
