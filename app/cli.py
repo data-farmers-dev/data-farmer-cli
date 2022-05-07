@@ -6,8 +6,8 @@ import sys
 
 import typer
 
-import utils
-import master
+from app import utils
+from app import master
 
 app = typer.Typer(add_completion=False)
 
@@ -33,8 +33,26 @@ def start_master(max_workers: int = 2, auto_remove: bool = True):
         typer.secho("Successfully connected to the Docker daemon", fg=typer.colors.GREEN, bold=True)
 
         typer.secho("Starting the master Docker container...", fg=typer.colors.BLUE, bold=True)
-        container = master.manage.run(max_workers=max_workers, auto_remove=auto_remove)
-        typer.secho("Master Docker container has successfully started!", fg=typer.colors.GREEN, bold=True)
+        _container = master.manage.run(max_workers=max_workers, auto_remove=auto_remove)
+        typer.secho("Master Docker container has successfully started!",
+                    fg=typer.colors.GREEN, bold=True)
+    except Exception as err:
+        typer.secho("An error was encountered:", fg=typer.colors.RED, bold=True)
+        typer.echo(err)
+        sys.exit(1)
+
+
+@app.command()
+def stop_master():
+    """
+    Stops the master container
+    """
+
+    try:
+        container = utils.get_master_container()
+        container.stop()
+        typer.secho("Master Docker container has been successfully stopped!",
+                    fg=typer.colors.GREEN, bold=True)
     except Exception as err:
         typer.secho("An error was encountered:", fg=typer.colors.RED, bold=True)
         typer.echo(err)

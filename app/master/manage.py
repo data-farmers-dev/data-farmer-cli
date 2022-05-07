@@ -4,8 +4,8 @@ Logic for managing the master Docker container.
 
 from docker.models.containers import Container
 
-import config
-import utils
+from app import config
+from app import utils
 
 
 def run(max_workers: int, auto_remove: bool) -> Container:
