@@ -34,7 +34,7 @@ def start_master(docker_base_url: str = 'unix://var/run/docker.sock', _max_worke
         typer.secho("Successfully connected to the Docker daemon", fg=typer.colors.GREEN, bold=True)
 
         typer.secho("Starting the master Docker container...", fg=typer.colors.BLUE, bold=True)
-        master.start(client)
+        master.manage.create(client)
     except DockerException as err:
         typer.secho("Could not connect to the Docker daemon:", fg=typer.colors.RED, bold=True)
         typer.echo(err)
