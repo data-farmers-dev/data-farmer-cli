@@ -2,23 +2,28 @@
 Logic for managing the master Docker container.
 """
 
-import docker
+from docker.models.containers import Container
+
+import config
+import utils
 
 
-def create(_client: docker.DockerClient):
+def run(max_workers: int, auto_remove: bool) -> Container:
     """
     Starts a master Docker container.
 
-    :param _client: A DockerClient instance
-    :return: TBD
+    :param max_workers: Maximum number of workers that the master can create.
+    :param auto_remove: Remove the container when it has finished running.
+    :return: Container object of the master (started)
     """
-
-
-def run(_client: docker.DockerClient, _sth_related_to_image: str):
-    """
-    Starts a master Docker container.
-
-    :param _client: A DockerClient instance
-    :param _sth_related_to_image:
-    :return: TBD
-    """
+    client = utils.get_docker_client()
+    return client.containers.run(
+        config.MASTER_IMAGE_NAME,
+        detach=True,
+        remove=auto_remove,
+        name=config.MASTER_CONTAINER_NAME,
+        ports={'5555/tcp': config.MASTER_FLASK_PORT},
+        environment={
+            'MAX_WORKERS': max_workers
+        }
+    )

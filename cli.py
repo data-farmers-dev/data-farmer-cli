@@ -6,7 +6,6 @@ import sys
 
 import typer
 
-import config
 import utils
 import master
 
@@ -14,7 +13,7 @@ app = typer.Typer(add_completion=False)
 
 
 @app.command()
-def start_master(_max_workers: int = 2):
+def start_master(max_workers: int = 2, auto_remove: bool = True):
     """
     Starts the master container
 
@@ -23,16 +22,21 @@ def start_master(_max_workers: int = 2):
     --max-workers
 
         Maximum number of workers that the master can create.
+
+    --auto-remove
+
+        Remove the container when it has finished running.
     """
 
     try:
-        client = utils.get_docker_client(config.DOCKER_BASE_URL)
+        utils.get_docker_client()
         typer.secho("Successfully connected to the Docker daemon", fg=typer.colors.GREEN, bold=True)
 
         typer.secho("Starting the master Docker container...", fg=typer.colors.BLUE, bold=True)
-        master.manage.create(client)
+        container = master.manage.run(max_workers=max_workers, auto_remove=auto_remove)
+        typer.secho("Master Docker container has successfully started!", fg=typer.colors.GREEN, bold=True)
     except Exception as err:
-        typer.secho("Could not connect to the Docker daemon:", fg=typer.colors.RED, bold=True)
+        typer.secho("An error was encountered:", fg=typer.colors.RED, bold=True)
         typer.echo(err)
         sys.exit(1)
 

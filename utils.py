@@ -4,10 +4,11 @@ Various utilities used throughout the application.
 
 import docker
 
+import config
 
-def get_docker_client(base_url: str) -> docker.DockerClient:
+
+def get_docker_client() -> docker.DockerClient:
     """
-    :param base_url: URL to the Docker server
     :return: A DockerClient instance
     """
-    return docker.DockerClient(base_url=base_url)
+    return docker.DockerClient(base_url=config.DOCKER_BASE_URL)
