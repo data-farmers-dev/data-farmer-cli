@@ -1,16 +1,20 @@
+"""
+The CLI definition using Typer library.
+"""
+
 import sys
-import utils
-import master
 
 import typer
-
 from docker.errors import DockerException
+
+import utils
+import master
 
 app = typer.Typer(add_completion=False)
 
 
 @app.command()
-def start_master(docker_base_url: str = 'unix://var/run/docker.sock', max_workers: int = 2):
+def start_master(docker_base_url: str = 'unix://var/run/docker.sock', _max_workers: int = 2):
     """
     Starts the master container
 
