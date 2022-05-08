@@ -14,16 +14,16 @@ app = typer.Typer(add_completion=False)
 @app.command()
 def start(max_workers: int = 2, auto_remove: bool = True):
     """
+    \b
     Starts the master container
-
     Requires Docker to be installed.
 
+    \b
     --max-workers
-
         Maximum number of workers that the master can create.
 
+    \b
     --auto-remove
-
         Remove the container when it has finished running.
     """
 
@@ -61,8 +61,8 @@ def stop():
 @app.command()
 def list_plugins():
     """
+    \b
     Lists plugins that are supported by the master node
-
     Requires the master node to be started.
     """
 
