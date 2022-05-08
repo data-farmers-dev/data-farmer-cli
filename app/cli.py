@@ -33,8 +33,8 @@ def start_master(max_workers: int = 2, auto_remove: bool = True):
         typer.secho("Successfully connected to the Docker daemon", fg=typer.colors.GREEN, bold=True)
 
         typer.secho("Starting the master Docker container...", fg=typer.colors.BLUE, bold=True)
-        _container = master.manage.run(max_workers=max_workers, auto_remove=auto_remove)
-        typer.secho("Master Docker container has successfully started!",
+        container = master.manage.run(max_workers=max_workers, auto_remove=auto_remove)
+        typer.secho(f"Master Docker container has successfully started! Name: {container.name}",
                     fg=typer.colors.GREEN, bold=True)
     except Exception as err:
         typer.secho("An error was encountered:", fg=typer.colors.RED, bold=True)
