@@ -2,18 +2,23 @@
 CLI commands related to an experiment
 """
 
+import sys
+import json
+
 import typer
+
+from app import master
 
 app = typer.Typer(add_completion=False)
 
 
 @app.command()
 def start(archive: str, plugin: str = "docker",
-                   workers: int = 2, tasks_per_worker: int = 2):
+          workers: int = 2, tasks_per_worker: int = 2):
     """
     \b
     Runs an experiment with a given configuration
-    Requires the master node to be started.
+    Requires the master to be started.
 
     \b
     ARCHIVE
@@ -34,7 +39,16 @@ def start(archive: str, plugin: str = "docker",
     --tasks-per-worker
         Limit of tasks that a single worker can execute.
     """
-    typer.secho("TBD", fg=typer.colors.BLUE)
+    try:
+        typer.secho("Creating an experiment...", fg=typer.colors.BLUE, bold=True)
+
+        res = master.experiment.create(archive, plugin, workers, tasks_per_worker)
+        typer.secho("Result:", fg=typer.colors.GREEN, bold=True)
+        typer.echo(json.dumps(res, indent=2))
+    except Exception as err:
+        typer.secho("An error was encountered:", fg=typer.colors.RED, bold=True)
+        typer.echo(err)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
