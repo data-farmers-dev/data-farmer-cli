@@ -1,9 +1,8 @@
 """
-The CLI definition using Typer library.
+CLI commands related to the master
 """
 
 import sys
-
 import typer
 
 from app import utils
@@ -13,7 +12,7 @@ app = typer.Typer(add_completion=False)
 
 
 @app.command()
-def start_master(max_workers: int = 2, auto_remove: bool = True):
+def start(max_workers: int = 2, auto_remove: bool = True):
     """
     Starts the master container
 
@@ -43,7 +42,7 @@ def start_master(max_workers: int = 2, auto_remove: bool = True):
 
 
 @app.command()
-def stop_master():
+def stop():
     """
     Stops the master container
     """
@@ -66,14 +65,11 @@ def list_plugins():
 
     Requires the master node to be started.
     """
-    typer.secho("TBD", fg=typer.colors.BLUE)
+
+    # for now let's display only the docker plugin
+    typer.secho("Supported plugins", fg=typer.colors.BLUE)
+    typer.echo("  - docker")
 
 
-@app.command()
-def run_experiment():
-    """
-    Runs an experiment with a given configuration
-
-    Requires the master node to be started.
-    """
-    typer.secho("TBD", fg=typer.colors.BLUE)
+if __name__ == "__main__":
+    app()
