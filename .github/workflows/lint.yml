@@ -1,4 +1,4 @@
-name: Lint
+name: Pylint
 on:
   pull_request:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   lint:
-    name: Use Pylint
+    name: Achieve score better than 7.0
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,9 +14,9 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
-      - name: Upgrade pip
-        run: python -m pip install --upgrade pip
-      - name: Lint with Pylint
+      - name: Install dependencies
         run: |
-          pip install pylint
-          pylint main.py app/*.py --fail-under 7
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint with Pylint
+        run: pylint main.py app/*.py --fail-under 7
