@@ -1,4 +1,4 @@
 # pylint: skip-file
-from . import manage
+from . import manage, experiment
 
-__all__ = [manage]
+__all__ = [manage, experiment]

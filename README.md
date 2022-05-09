@@ -14,6 +14,12 @@ You should have these installed:
 cp .env.template .env
 vim .env
 
-# start the application
-python main.py
+# start the master
+python main.py master start --help
+
+# list plugins supported by the master
+python main.py master list-plugins
+
+# run an experiment
+python main.py experiment start --help
 ```
