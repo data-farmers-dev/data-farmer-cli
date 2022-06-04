@@ -1,4 +1,4 @@
-# data-farmer 👨‍🌾
+# data-farmer-cli 👨‍🌾
 
 ## Requirements
 
