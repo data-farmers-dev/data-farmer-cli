@@ -24,6 +24,8 @@ def run(max_workers: int, auto_remove: bool) -> Container:
         name=config.MASTER_CONTAINER_NAME,
         ports={'5555/tcp': config.MASTER_FLASK_PORT},
         environment={
+            'HOST': '0.0.0.0',
             'MAX_WORKERS': max_workers
-        }
+        },
+        volumes=["/var/run/docker.sock:/var/run/docker.sock"]
     )
