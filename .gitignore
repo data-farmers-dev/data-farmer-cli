@@ -1,4 +1,5 @@
-experiment.tar.gz
+# App specific
+/results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
